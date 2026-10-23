@@ -514,29 +514,68 @@
         }
 
         // Audio Player Controls
+       // Audio Player Controls
         const audio = document.getElementById('bgMusic');
         const musicPing = document.getElementById('musicPing');
         const musicIcon = document.getElementById('musicIcon');
         const musicText = document.getElementById('musicText');
         let isPlaying = false;
 
+        function playAudio() {
+            audio.play().then(() => {
+                isPlaying = true;
+                musicPing.classList.remove('hidden');
+                musicIcon.className = "fa-solid fa-compact-disc text-lg animate-spin";
+                musicText.innerText = "Memutar Lagu ✨";
+            }).catch(err => {
+                console.log("Autoplay diblokir oleh browser, menunggu interaksi pengguna.", err);
+            });
+        }
+
+        function pauseAudio() {
+            audio.pause();
+            isPlaying = false;
+            musicPing.classList.add('hidden');
+            musicIcon.className = "fa-solid fa-music text-lg";
+            musicText.innerText = "Putar Musik 🎵";
+        }
+
         function toggleAudio() {
             if (isPlaying) {
-                audio.pause();
-                musicPing.classList.add('hidden');
-                musicIcon.className = "fa-solid fa-music text-lg";
-                musicText.innerText = "Putar Musik 🎵";
+                pauseAudio();
             } else {
-                audio.play().then(() => {
-                    musicPing.classList.remove('hidden');
-                    musicIcon.className = "fa-solid fa-compact-disc text-lg animate-spin";
-                    musicText.innerText = "Memutar Lagu ✨";
-                }).catch(err => {
-                    console.log("Autoplay blocked or audio failed", err);
-                });
+                playAudio();
             }
-            isPlaying = !isPlaying;
         }
+
+        // Initialize On Load
+        window.onload = function () {
+            renderGallery();
+            animatePetals();
+
+            // Set dynamic current date in letter
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const today = new Date().toLocaleDateString('id-ID', options);
+            document.getElementById('currentDateDisplay').innerText = today;
+
+            // Coba langsung putar musik saat halaman selesai dimuat
+            playAudio();
+
+            // Fallback: Jika diblokir browser, musik otomatis berputar pada interaksi pertama (klik/touch/scroll)
+            const enableAudioOnInteraction = () => {
+                if (!isPlaying) {
+                    playAudio();
+                }
+                // Hapus event listener setelah musik berhasil diputar
+                ['click', 'touchstart', 'scroll', 'keydown'].forEach(event => {
+                    document.removeEventListener(event, enableAudioOnInteraction);
+                });
+            };
+
+            ['click', 'touchstart', 'scroll', 'keydown'].forEach(event => {
+                document.addEventListener(event, enableAudioOnInteraction, { once: true });
+            });
+        };
 
         // Falling Sakura/Rose Petal Canvas Animation
         const canvas = document.getElementById('petal-canvas');
