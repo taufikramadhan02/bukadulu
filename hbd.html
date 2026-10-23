@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun, Cintaku ❤️</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Caveat:wght@400;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;1,300&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        romantic: {
+                            50: '#fff0f3',
+                            100: '#ffe3e8',
+                            200: '#fcc2d0',
+                            300: '#f891a9',
+                            400: '#f45d82',
+                            500: '#e63962',
+                            600: '#c9184a',
+                            700: '#a6123a',
+                            800: '#800f2f',
+                            900: '#590d22',
+                        },
+                        cream: '#faf6f0',
+                        gold: '#d4af37'
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        cursive: ['Alex Brush', 'cursive'],
+                        handwriting: ['Caveat', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Keyframe Animations & Parallax */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(var(--tw-rotate)); }
+            50% { transform: translateY(-12px) rotate(calc(var(--tw-rotate) + 2deg)); }
+        }
+        
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.02); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.4; filter: drop-shadow(0 0 15px rgba(230,57,98,0.4)); }
+            50% { opacity: 0.8; filter: drop-shadow(0 0 25px rgba(230,57,98,0.8)); }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .animate-float-slow {
+            animation: floatSlow 8s ease-in-out infinite;
+        }
+
+        .animate-glow {
+            animation: pulseGlow 4s infinite;
+        }
+
+        /* Particle Canvas Styling */
+        #petal-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #faf6f0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f891a9;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e63962;
+        }
+
+        /* Polaroid Effect & Glassmorphism */
+        .polaroid-card {
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+        }
+        .polaroid-card:hover {
+            transform: scale(1.1) rotate(0deg) !important;
+            z-index: 40 !important;
+            box-shadow: 0 25px 35px -5px rgba(230, 57, 98, 0.25), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .glass-dark {
+            background: rgba(89, 13, 34, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-cream text-gray-800 font-sans overflow-x-hidden selection:bg-romantic-200 selection:text-romantic-900">
+
+    <!-- Petal Falling Canvas Background -->
+    <canvas id="petal-canvas"></canvas>
+
+    <!-- Floating Audio Control Button -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <button id="musicToggleBtn" onclick="toggleAudio()" class="flex items-center gap-3 bg-white/80 backdrop-blur-md px-4 py-3 rounded-full shadow-lg border border-romantic-200 text-romantic-600 hover:bg-romantic-50 transition-all duration-300 transform hover:scale-105 active:scale-95 group">
+            <span class="w-3 h-3 rounded-full bg-romantic-500 animate-ping" id="musicPing"></span>
+            <i class="fa-solid fa-music text-lg group-hover:rotate-12 transition-transform" id="musicIcon"></i>
+            <span class="text-xs font-semibold tracking-wider text-gray-700 font-sans pr-1" id="musicText">Putar Musik 🎵</span>
+        </button>
+    </div>
+
+    <!-- Hidden HTML5 Audio Player (Replace src with your favorite romantic song src) -->
+    <audio id="bgMusic" loop>
+         <source src="Overnight - Kita Lewati Berdua (Official Audio).mp3" type="audio/mpeg">
+     </audio>
+
+    <!-- HERO SECTION -->
+    <section class="min-h-screen relative flex flex-col items-center justify-center text-center p-6 overflow-hidden">
+        <!-- Soft Gradient Glows -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-romantic-200/50 rounded-full filter blur-3xl animate-glow pointer-events-none"></div>
+        <div class="absolute bottom-10 left-10 w-72 h-72 bg-romantic-300/30 rounded-full filter blur-2xl pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-3xl mx-auto space-y-6">
+            <span class="inline-block px-4 py-1.5 bg-romantic-100 text-romantic-700 rounded-full text-sm font-medium tracking-widest uppercase shadow-sm border border-romantic-200">
+                Hari Spesial Buat Orang Paling Awak Sayang ✨
+            </span>
+            
+            <h1 class="font-serif text-5xl md:text-7xl font-bold text-gray-900 leading-tight">
+                Selamat Ulang Tahun, <br>
+                <span class="font-cursive text-romantic-600 text-6xl md:text-8xl block mt-2 font-normal capitalize">Sayang Awak ❤️</span>
+            </h1>
+
+            <p class="text-lg md:text-xl text-gray-600 font-light leading-relaxed max-w-xl mx-auto">
+                selamat ulang tahun ya sayang. Awak cuma mau bilang, makasih udah ada terus di samping awak. Awak sayang kali sama Sayang.
+            </p>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#gallery" class="px-8 py-4 bg-romantic-600 hover:bg-romantic-700 text-white rounded-full font-medium shadow-lg shadow-romantic-500/30 hover:shadow-romantic-500/50 transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-2">
+                    <span>Galeri Sayang</span>
+                    <i class="fa-solid fa-arrow-down text-sm"></i>
+                </a>
+                <a href="#skripsi-support" class="px-8 py-4 bg-white/80 backdrop-blur-sm border border-romantic-200 text-romantic-700 rounded-full font-medium hover:bg-romantic-50 transition-all duration-300 shadow-sm flex items-center gap-2">
+                    <span>Semangat Skripsi Kita! 🎓</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-70 animate-bounce">
+            <span class="text-xs tracking-widest text-gray-400 uppercase">Scroll Ke Bawah Layar Ini</span>
+            <i class="fa-solid fa-chevron-down text-romantic-400"></i>
+        </div>
+    </section>
+
+
+    <!-- LOVE COUNTER & STATS SECTION -->
+    <section class="py-16 bg-white/50 border-y border-romantic-100 relative z-20">
+        <div class="max-w-5xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div class="p-6 rounded-2xl bg-white shadow-sm border border-romantic-100 hover:border-romantic-300 transition-all">
+                <div class="text-romantic-500 text-3xl font-bold mb-1 font-serif">1,000+</div>
+                <div class="text-xs text-gray-500 uppercase tracking-wider">Senyum Manis Sayang</div>
+            </div>
+            <div class="p-6 rounded-2xl bg-white shadow-sm border border-romantic-100 hover:border-romantic-300 transition-all">
+                <div class="text-romantic-500 text-3xl font-bold mb-1 font-serif">BAB 1-5</div>
+                <div class="text-xs text-gray-500 uppercase tracking-wider">Target Skripsi Tuntas</div>
+            </div>
+            <div class="p-6 rounded-2xl bg-white shadow-sm border border-romantic-100 hover:border-romantic-300 transition-all">
+                <div class="text-romantic-500 text-3xl font-bold mb-1 font-serif">30</div>
+                <div class="text-xs text-gray-500 uppercase tracking-wider">Foto Favorit Awak</div>
+            </div>
+            <div class="p-6 rounded-2xl bg-white shadow-sm border border-romantic-100 hover:border-romantic-300 transition-all">
+                <div class="text-romantic-500 text-3xl font-bold mb-1 font-serif">Penuh</div>
+                <div class="text-xs text-gray-500 uppercase tracking-wider">Dukungan Dari Awak</div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- SPECIAL SKRIPSI & KULIAH ENCOURAGEMENT SECTION -->
+    <section id="skripsi-support" class="py-20 px-6 relative z-20 bg-gradient-to-b from-romantic-50/50 to-cream">
+        <div class="max-w-4xl mx-auto glass-panel p-8 md:p-12 rounded-3xl shadow-xl border border-romantic-200/80 relative overflow-hidden">
+            <!-- Background Decorative Badge -->
+            <div class="absolute -right-10 -bottom-10 text-romantic-100 text-9xl pointer-events-none opacity-40">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+
+            <div class="relative z-10 space-y-6 text-center md:text-left">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-romantic-100 text-romantic-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                    <i class="fa-solid fa-book-open-reader"></i> Perjuangan Bersama Kita
+                </div>
+
+                <h2 class="font-serif text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+                    Semangat Skripsi Kita Ya Sayang! 🎓✨
+                </h2>
+
+                <p class="text-gray-700 leading-relaxed text-base md:text-lg">
+                    Kita berdua sama-sama lagi ngerjain skripsi ini, sama-sama ngarungi pusingnya revisian sama dospem. Tapi ingat ya sayang, <span class="font-bold text-romantic-600">awak yakin kita berdua pasti bisa lewatkan ini bareng-bareng</span>. Sayang itu pinter dan kuat kali. Biar pening kek mana pun, kita usahakan sama-sama sampai toga itu terpasang di kepala kita berdua ya.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+                    <div class="bg-white/80 p-5 rounded-2xl border border-romantic-100 shadow-sm text-center">
+                        <div class="text-2xl text-romantic-500 mb-2"><i class="fa-solid fa-shield-heart"></i></div>
+                        <h4 class="font-bold text-gray-800 text-sm mb-1">Awak Selalu Ada</h4>
+                        <p class="text-xs text-gray-500">Sayang gak sendiri kok. Kapan pun butuh kawan nugas, pusing revisi, cerita aja sama awak. Kapan aja awak siap mendengarkan.</p>
+                    </div>
+                    <div class="bg-white/80 p-5 rounded-2xl border border-romantic-100 shadow-sm text-center">
+                        <div class="text-2xl text-romantic-500 mb-2"><i class="fa-solid fa-award"></i></div>
+                        <h4 class="font-bold text-gray-800 text-sm mb-1">Wisuda Bareng Kita</h4>
+                        <p class="text-xs text-gray-500">Bayangin pas wisuda nanti, senengnya orang tua kita dan bangganya awak nengok Sayang berdiri samping awak pakai toga!</p>
+                    </div>
+                </div>
+
+                <div class="pt-4 text-center md:text-left font-handwriting text-2xl text-romantic-700">
+                    "Semangat skripsi kita berdua ya sayang, cepat lulus dan lega kita nanti! ❤️"
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- MEMORY GALLERY SECTION -->
+    <section id="gallery" class="py-24 px-4 md:px-12 relative z-20 max-w-[1600px] mx-auto">
+        <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+            <span class="text-romantic-600 font-semibold tracking-widest text-xs uppercase">Galeri Foto</span>
+            <h2 class="font-serif text-4xl md:text-5xl font-bold text-gray-900">22 Foto Pilihan Awak</h2>
+            <p class="text-gray-600 font-light">
+                Ini ada 22 foto Sayang (sama foto kita berdua jugak). Pencet aja fotonya kalau mau nengok gambar lebih jelas dan baca catatan kecil dari awak.
+            </p>
+        </div>
+
+        <!-- Scattered Aesthetic Masonry / Grid Container -->
+        <div id="photoGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 md:gap-8 items-center justify-center">
+            <!-- Dynamic photos will be injected via JS with random rotation and custom delays -->
+        </div>
+    </section>
+
+
+    <!-- ROMANTIC LOVE LETTER SECTION -->
+    <section id="letter" class="py-24 px-6 relative z-20">
+        <div class="max-w-3xl mx-auto glass-panel p-8 md:p-16 rounded-3xl shadow-2xl relative border border-white">
+            <!-- Decorative Ribbon / Stamp -->
+            <div class="absolute -top-5 right-10 bg-romantic-600 text-white w-12 h-16 flex items-center justify-center rounded-t-sm shadow-md clip-path-flag">
+                <i class="fa-solid fa-heart text-xl"></i>
+            </div>
+
+            <div class="space-y-6">
+                <span class="font-handwriting text-2xl text-romantic-600 block">Buat Nurul, Sayangku...</span>
+                
+                <h3 class="font-serif text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+                    Pesan Kecil di Hari Ulang Tahun Sayang
+                </h3>
+
+                <div class="prose prose-pink text-gray-700 leading-relaxed font-sans space-y-4 text-base md:text-lg pt-4">
+                    <p>
+                        Pas di hari ulang tahun sayang ini, awak doakan semoga Sayang sehat-sehat terus, makin bahagia, dan semua urusan Sayang dipermudah. Terkhusus buat urusan kuliah dan skripsi kita ini, semoga diACC terus sama dospem ya kan biar bisa sidang bareng.
+                    </p>
+                    <p>
+                        Makasih ya udah sabar sama awak dan selalu ada. Awak bersyukur kali punya Sayang. Pokoknya awak bakal selalu dukung Sayang terus dari belakang.
+                    </p>
+                    <p>
+                        Awak sayang kali sama Sayang, sungguh. Semoga kita bisa terus bareng-bareng sampai tua nanti ya sayang. Amin.
+                    </p>
+                    <p>
+                        Makasih udah jadi bagian hidup awak, Sayang. Ilove you sayang ❤️
+                    </p>
+                </div>
+
+                <div class="pt-8 border-t border-romantic-200/60 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                    <div>
+                        <span class="block text-xs uppercase tracking-wider text-gray-400">Dari Awak,</span>
+                        <span class="font-cursive text-4xl text-romantic-700 block mt-1">Orang yang Sayang Kali Sama Sayang ❤️</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-sm font-serif italic text-gray-500" id="currentDateDisplay">Medan</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- REASON WHY I LOVE YOU (INTERACTIVE CARDS) -->
+    <section class="py-20 px-6 bg-romantic-900 text-white relative z-20">
+        <div class="max-w-5xl mx-auto text-center space-y-12">
+            <div>
+                <span class="text-romantic-300 text-xs font-semibold tracking-widest uppercase">Kenapa Awak Sayang Kali Sama Sayang</span>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold mt-2">3 Alasan Utama Awak</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                <div class="glass-dark p-8 rounded-2xl hover:bg-romantic-800/80 transition-all border border-white/10 group">
+                    <div class="w-12 h-12 bg-romantic-600/30 rounded-xl flex items-center justify-center text-romantic-300 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-face-smile-beam"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold mb-3 text-white">Senyum Sayang Tu</h3>
+                    <p class="text-romantic-100/80 text-sm leading-relaxed">
+                        Kalau nengok Sayang udah senyum, hilang terus rasa pening awak. Bikin adem aja bawaannya.
+                    </p>
+                </div>
+
+                <div class="glass-dark p-8 rounded-2xl hover:bg-romantic-800/80 transition-all border border-white/10 group">
+                    <div class="w-12 h-12 bg-romantic-600/30 rounded-xl flex items-center justify-center text-romantic-300 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-hands-holding-child"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold mb-3 text-white">Rajin & Suka Bantu Keluarga Awak</h3>
+                    <p class="text-romantic-100/80 text-sm leading-relaxed">
+                        Sayang tu rajin kali, apapun yang dikerjakan gak pernah nampak capeknya. Mana suka kali bantu keluarga awak pulak, tulus kali hati Sayang.
+                    </p>
+                </div>
+
+                <div class="glass-dark p-8 rounded-2xl hover:bg-romantic-800/80 transition-all border border-white/10 group">
+                    <div class="w-12 h-12 bg-romantic-600/30 rounded-xl flex items-center justify-center text-romantic-300 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-infinity"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold mb-3 text-white">Selalu Ada Pas Awak Susah</h3>
+                    <p class="text-romantic-100/80 text-sm leading-relaxed">
+                        Walaupun awak lagi gak punya uang, Sayang masih sayang sama awak. Di saat awak susah, Sayang tetap setia berdiri di samping awak. Makanya awak gak mau kehilangan Sayang.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FOOTER / FINAL WISH -->
+    <footer class="py-16 text-center relative z-20 bg-cream border-t border-romantic-200">
+        <div class="max-w-xl mx-auto px-6 space-y-6">
+            <div class="font-cursive text-5xl text-romantic-600">Selamat Ulang Tahun Sayang</div>
+            <p class="text-xs text-gray-500 tracking-widest uppercase">
+                Dibuat Spesial Sama Awak Cuma Buat Sayang
+            </p>
+            <div class="text-romantic-400 text-sm flex justify-center gap-2">
+                <i class="fa-solid fa-heart animate-bounce"></i>
+                <i class="fa-solid fa-heart animate-bounce delay-100"></i>
+                <i class="fa-solid fa-heart animate-bounce delay-200"></i>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- LIGHTBOX / PHOTO ZOOM MODAL -->
+    <div id="photoModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+        <button onclick="closeModal()" class="absolute top-6 right-6 text-white text-3xl hover:text-romantic-400 transition-colors z-50">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="max-w-2xl w-full bg-white rounded-2xl overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300" id="modalCard">
+            <div class="relative bg-black flex items-center justify-center max-h-[60vh] overflow-hidden">
+                <img id="modalImg" src="" alt="Zoomed Photo" class="w-full h-full object-contain">
+            </div>
+            <div class="p-6 text-center space-y-3 bg-white">
+                <span class="text-xs text-romantic-600 font-bold uppercase tracking-wider" id="modalTag">Momen Kebersamaan</span>
+                <p class="font-handwriting text-2xl text-gray-800" id="modalCaption">
+                    Catatan manis kenangan kita...
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Array data foto kenangan dengan 1 kata motivasi cinta formal & aesthetic
+        const photoData = [
+            { id: 1, type: "solo", word: "Renjana", caption: "Rasa cinta dan kerinduan mendalam yang menjadi alasan utama untuk terus berjuang.", src: "1 (1).jpg" },
+            { id: 2, type: "solo", word: "Nirmala", caption: "Ketulusan hati yang murni tanpa cela, menjadi peneduh di kala badai datang.", src: "1 (2).jpg" },
+            { id: 3, type: "couple", word: "Asmaraloka", caption: "Dunia cinta kasih kita yang penuh keindahan dan kehangatan bersama.", src: "1 (3).jpg" },
+            { id: 4, type: "solo", word: "Ancala", caption: "Keteguhan jiwa yang kokoh berdiri layaknya gunung dalam menghadapi ujian.", src: "1 (4).JPG" },
+            { id: 5, type: "solo", word: "Keteguhan", caption: "Pendirian teguh untuk menyelesaikan setiap impian yang telah kita mulai.", src: "1 (5).jpg" },
+            { id: 6, type: "solo", word: "Keikhlasan", caption: "Melangkah penuh kepasrahan dan ketulusan di setiap perjalanan hidup.", src: "1 (6).jpg" },
+            { id: 7, type: "couple", word: "Temali", caption: "Ikatan rasa yang saling menopang dan menguatkan saat salah satu lelah.", src: "1 (7).jpg" },
+            { id: 8, type: "solo", word: "Kesabaran", caption: "Ketenangan hati dalam menikmati setiap babak proses perjalanan panjang.", src: "1 (8).jpg" },
+            { id: 9, type: "solo", word: "Kedisiplinan", caption: "Komitmen konsisten untuk memberikan dedikasi terbaik setiap harinya.", src: "1 (9).jpg" },
+            { id: 10, type: "solo", word: "Perjuangan", caption: "Usaha nyata pantang menyerah demi meraih hari esok yang dicita-citakan.", src: "1 (10).jpg" },
+            { id: 11, type: "solo", word: "Ketahanan", caption: "Kekuatan mental yang teruji untuk bangkit kembali setiap kali terjatuh.", src: "1 (11).jpg" },
+            { id: 12, type: "couple", word: "Ketenangan", caption: "Kedamaian jiwa yang hadir secara utuh saat kita saling berdampingan.", src: "1 (12).jpg" },
+            { id: 13, type: "solo", word: "Afeksi", caption: "Wujud kepedulian halus yang senantiasa memberi dorongan semangat.", src: "1 (13).jpg" },
+            { id: 14, type: "solo", word: "Optimisme", caption: "Keyakinan terang bahwa setiap rintangan akan menghantarkan pada kebaikan.", src: "1 (14).JPG" },
+            { id: 15, type: "solo", word: "Keheningan", caption: "Ruang tulus untuk merenung dan mematangkan langkah pemikiran.", src: "1 (15).JPG" },
+            { id: 16, type: "solo", word: "Keteraturan", caption: "Langkah terencana yang menuntun menuju hasil yang diharapkan.", src: "1 (16).JPG" },
+            { id: 17, type: "couple", word: "Penyelarasan", caption: "Penyatuan visi dan langkah menuju satu arah tujuan masa depan.", src: "1 (17).JPG" },
+            { id: 18, type: "solo", word: "Keberanian", caption: "Keteguhan menghadapi setiap ketidakpastian dengan kepala tegak.", src: "1 (18).JPG" },
+            { id: 19, type: "solo", word: "Komitmen", caption: "Janji suci untuk saling menjaga dan tidak saling meninggalkan.", src: "1 (19).jpg" },
+            { id: 20, type: "solo", word: "Ketenangan", caption: "Keseimbangan rasa yang menjadikan tiap keputusan terasa matang.", src: "1 (20).jpg" },
+            { id: 21, type: "solo", word: "Harmoni", caption: "Keselarasan hidup yang tercipta dari rasa saling melengkapi.", src: "1 (21).jpg" },
+            { id: 22, type: "couple", word: "Kemitraan", caption: "Saling bahu-membahu membangun cerita kehidupan yang bermakna.", src: "1 (22).jpg" }
+        ];
+
+        // Function to shuffle photo array randomly (Fisher-Yates Shuffle Algorithm)
+        function shuffleArray(array) {
+            let shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // Inject photos dynamically with randomized positions & a single motivational word
+        function renderGallery() {
+            const grid = document.getElementById('photoGrid');
+            grid.innerHTML = '';
+
+            // Randomize photos order every page refresh
+            const randomizedPhotos = shuffleArray(photoData);
+
+            randomizedPhotos.forEach((item, index) => {
+                // Random rotations between -6deg to +6deg for scattered aesthetic
+                const rotations = ['-rotate-6', '-rotate-3', '-rotate-2', 'rotate-1', 'rotate-3', 'rotate-6'];
+                const randomRotate = rotations[Math.floor(Math.random() * rotations.length)];
+                
+                const card = document.createElement('div');
+                card.className = `polaroid-card bg-white p-3 rounded-lg shadow-md border border-gray-100 cursor-pointer transform ${randomRotate} hover:rotate-0 transition-all duration-300 animate-float-slow flex flex-col justify-between`;
+                card.style.animationDelay = `${(index % 5) * 0.3}s`;
+                
+                const isCouple = item.type === "couple";
+                const badgeLabel = isCouple ? "Kebersamaan 🎓" : "Langkah Cinta ✨";
+                const badgeStyle = isCouple 
+                    ? "bg-romantic-600 text-white" 
+                    : "bg-white/90 text-romantic-700";
+
+                card.onclick = () => openModal(item.src, item.word, item.caption, index + 1, item.type);
+
+                card.innerHTML = `
+                    <div class="aspect-[4/5] bg-gray-100 overflow-hidden rounded relative group shrink-0">
+                        <img src="${item.src}" alt="Memory ${item.id}" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://placehold.co/600x750/ffe3e8/800f2f?text=Dokumentasi+${item.id}'">
+                        <div class="absolute inset-0 bg-romantic-900/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <span class="${badgeStyle} text-xs px-3 py-1.5 rounded-full font-medium shadow-sm flex items-center gap-1">
+                                <i class="fa-solid fa-expand text-[10px]"></i> ${badgeLabel}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mt-3 text-center px-1">
+                        <span class="font-serif text-base font-bold text-romantic-700 tracking-wide block">${item.word}</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Lightbox Modal Functions
+        function openModal(imgsrc, word, caption, index, type) {
+            const modal = document.getElementById('photoModal');
+            const modalCard = document.getElementById('modalCard');
+            const modalImg = document.getElementById('modalImg');
+            const modalCaption = document.getElementById('modalCaption');
+            const modalTag = document.getElementById('modalTag');
+
+            modalImg.src = imgsrc;
+            modalCaption.innerHTML = `<span class="block font-serif text-2xl font-bold text-romantic-600 mb-1">${word}</span><span class="text-gray-600 text-sm font-sans">${caption}</span>`;
+            
+            if (type === "couple") {
+                modalTag.innerText = `Momen Kebersamaan (#${index})`;
+                modalTag.className = "text-xs text-romantic-600 font-bold uppercase tracking-wider bg-romantic-50 px-3 py-1 rounded-full inline-block";
+            } else {
+                modalTag.innerText = `Langkah Perjuangan (#${index})`;
+                modalTag.className = "text-xs text-gray-500 font-bold uppercase tracking-wider bg-gray-100 px-3 py-1 rounded-full inline-block";
+            }
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalCard.classList.remove('scale-95');
+                modalCard.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('photoModal');
+            const modalCard = document.getElementById('modalCard');
+
+            modal.classList.add('opacity-0');
+            modalCard.classList.remove('scale-100');
+            modalCard.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Audio Player Controls
+        const audio = document.getElementById('bgMusic');
+        const musicPing = document.getElementById('musicPing');
+        const musicIcon = document.getElementById('musicIcon');
+        const musicText = document.getElementById('musicText');
+        let isPlaying = false;
+
+        function toggleAudio() {
+            if (isPlaying) {
+                audio.pause();
+                musicPing.classList.add('hidden');
+                musicIcon.className = "fa-solid fa-music text-lg";
+                musicText.innerText = "Putar Musik 🎵";
+            } else {
+                audio.play().then(() => {
+                    musicPing.classList.remove('hidden');
+                    musicIcon.className = "fa-solid fa-compact-disc text-lg animate-spin";
+                    musicText.innerText = "Memutar Lagu ✨";
+                }).catch(err => {
+                    console.log("Autoplay blocked or audio failed", err);
+                });
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Falling Sakura/Rose Petal Canvas Animation
+        const canvas = document.getElementById('petal-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const petals = [];
+        const petalCount = 25;
+
+        class Petal {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height - canvas.height;
+                this.size = Math.random() * 8 + 6;
+                this.speedY = Math.random() * 1.5 + 0.8;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.opacity = Math.random() * 0.5 + 0.3;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 2 - 1;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += Math.sin(this.y * 0.01) + this.speedX;
+                this.rotation += this.rotationSpeed;
+
+                if (this.y > canvas.height) {
+                    this.y = -20;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.globalAlpha = this.opacity;
+                
+                // Draw petal shape
+                ctx.beginPath();
+                ctx.fillStyle = '#f891a9';
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(-this.size, -this.size, -this.size * 1.5, this.size, 0, this.size * 1.5);
+                ctx.bezierCurveTo(this.size * 1.5, this.size, this.size, -this.size, 0, 0);
+                ctx.fill();
+
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < petalCount; i++) {
+            petals.push(new Petal());
+        }
+
+        function animatePetals() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            petals.forEach(petal => {
+                petal.update();
+                petal.draw();
+            });
+            requestAnimationFrame(animatePetals);
+        }
+
+        // Initialize On Load
+        window.onload = function () {
+            renderGallery();
+            animatePetals();
+
+            // Set dynamic current date in letter
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const today = new Date().toLocaleDateString('id-ID', options);
+            document.getElementById('currentDateDisplay').innerText = today;
+
+            // Auto-play attempt on first user click anywhere
+            document.body.addEventListener('click', function autoPlayOnce() {
+                if (!isPlaying) {
+                    toggleAudio();
+                }
+                document.body.removeEventListener('click', autoPlayOnce);
+            }, { once: true });
+        };
+    </script>
+</body>
+</html>
