@@ -45,7 +45,6 @@
     </script>
 
     <style>
-        /* Custom Keyframe Animations & Parallax */
         @keyframes float {
             0%, 100% { transform: translateY(0px) rotate(var(--tw-rotate)); }
             50% { transform: translateY(-12px) rotate(calc(var(--tw-rotate) + 2deg)); }
@@ -73,7 +72,6 @@
             animation: pulseGlow 4s infinite;
         }
 
-        /* Particle Canvas Styling */
         #petal-canvas {
             position: fixed;
             top: 0;
@@ -84,7 +82,6 @@
             z-index: 10;
         }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -99,7 +96,6 @@
             background: #e63962;
         }
 
-        /* Polaroid Effect & Glassmorphism */
         .polaroid-card {
             transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
@@ -127,26 +123,42 @@
 </head>
 <body class="bg-cream text-gray-800 font-sans overflow-x-hidden selection:bg-romantic-200 selection:text-romantic-900">
 
+    <!-- OVERLAY / LANDING SCREEN FOR AUTOPLAY PLAYBACK -->
+    <div id="welcomeOverlay" class="fixed inset-0 z-[100] bg-romantic-900 flex flex-col items-center justify-center p-6 text-center text-white transition-opacity duration-700">
+        <div class="space-y-6 max-w-md animate-float-slow">
+            <div class="w-20 h-20 bg-romantic-800 rounded-full flex items-center justify-center mx-auto shadow-xl border border-romantic-600/50">
+                <i class="fa-solid fa-envelope-open-text text-3xl text-romantic-200"></i>
+            </div>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold">Ada Pesan Spesial Buat Sayang ❤️</h2>
+            <p class="text-romantic-100 text-sm font-light">
+                Pencet tombol di bawah untuk membuka hadiah ucapan ulang tahun ini ya.
+            </p>
+            <button onclick="startWebsite()" class="px-8 py-4 bg-romantic-500 hover:bg-romantic-600 text-white rounded-full font-medium shadow-xl shadow-romantic-900/50 transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center gap-3 mx-auto">
+                <span>Buka Surat ✨</span>
+                <i class="fa-solid fa-heart"></i>
+            </button>
+        </div>
+    </div>
+
     <!-- Petal Falling Canvas Background -->
     <canvas id="petal-canvas"></canvas>
 
     <!-- Floating Audio Control Button -->
     <div class="fixed bottom-6 right-6 z-50">
         <button id="musicToggleBtn" onclick="toggleAudio()" class="flex items-center gap-3 bg-white/80 backdrop-blur-md px-4 py-3 rounded-full shadow-lg border border-romantic-200 text-romantic-600 hover:bg-romantic-50 transition-all duration-300 transform hover:scale-105 active:scale-95 group">
-            <span class="w-3 h-3 rounded-full bg-romantic-500 animate-ping" id="musicPing"></span>
-            <i class="fa-solid fa-music text-lg group-hover:rotate-12 transition-transform" id="musicIcon"></i>
+            <span class="w-3 h-3 rounded-full bg-romantic-500 animate-ping hidden" id="musicPing"></span>
+            <i class="fa-solid fa-music text-lg" id="musicIcon"></i>
             <span class="text-xs font-semibold tracking-wider text-gray-700 font-sans pr-1" id="musicText">Putar Musik 🎵</span>
         </button>
     </div>
 
-    <!-- Hidden HTML5 Audio Player (Replace src with your favorite romantic song src) -->
-    <audio id="bgMusic" autoplay loop>
-         <source src="Glenn Fredly - Nyali Terakhir [yB6ZnEred_c].mp3" type="audio/mpeg">
-     </audio>
+    <!-- Hidden HTML5 Audio Player -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="Glenn Fredly - Nyali Terakhir [yB6ZnEred_c].mp3" type="audio/mpeg">
+    </audio>
 
     <!-- HERO SECTION -->
     <section class="min-h-screen relative flex flex-col items-center justify-center text-center p-6 overflow-hidden">
-        <!-- Soft Gradient Glows -->
         <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-romantic-200/50 rounded-full filter blur-3xl animate-glow pointer-events-none"></div>
         <div class="absolute bottom-10 left-10 w-72 h-72 bg-romantic-300/30 rounded-full filter blur-2xl pointer-events-none"></div>
 
@@ -175,13 +187,11 @@
             </div>
         </div>
 
-        <!-- Scroll Indicator -->
         <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-70 animate-bounce">
             <span class="text-xs tracking-widest text-gray-400 uppercase">Scroll Ke Bawah Layar Ini</span>
             <i class="fa-solid fa-chevron-down text-romantic-400"></i>
         </div>
     </section>
-
 
     <!-- LOVE COUNTER & STATS SECTION -->
     <section class="py-16 bg-white/50 border-y border-romantic-100 relative z-20">
@@ -205,11 +215,9 @@
         </div>
     </section>
 
-
     <!-- SPECIAL SKRIPSI & KULIAH ENCOURAGEMENT SECTION -->
     <section id="skripsi-support" class="py-20 px-6 relative z-20 bg-gradient-to-b from-romantic-50/50 to-cream">
         <div class="max-w-4xl mx-auto glass-panel p-8 md:p-12 rounded-3xl shadow-xl border border-romantic-200/80 relative overflow-hidden">
-            <!-- Background Decorative Badge -->
             <div class="absolute -right-10 -bottom-10 text-romantic-100 text-9xl pointer-events-none opacity-40">
                 <i class="fa-solid fa-graduation-cap"></i>
             </div>
@@ -247,7 +255,6 @@
         </div>
     </section>
 
-
     <!-- MEMORY GALLERY SECTION -->
     <section id="gallery" class="py-24 px-4 md:px-12 relative z-20 max-w-[1600px] mx-auto">
         <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
@@ -258,17 +265,13 @@
             </p>
         </div>
 
-        <!-- Scattered Aesthetic Masonry / Grid Container -->
         <div id="photoGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 md:gap-8 items-center justify-center">
-            <!-- Dynamic photos will be injected via JS with random rotation and custom delays -->
         </div>
     </section>
-
 
     <!-- ROMANTIC LOVE LETTER SECTION -->
     <section id="letter" class="py-24 px-6 relative z-20">
         <div class="max-w-3xl mx-auto glass-panel p-8 md:p-16 rounded-3xl shadow-2xl relative border border-white">
-            <!-- Decorative Ribbon / Stamp -->
             <div class="absolute -top-5 right-10 bg-romantic-600 text-white w-12 h-16 flex items-center justify-center rounded-t-sm shadow-md clip-path-flag">
                 <i class="fa-solid fa-heart text-xl"></i>
             </div>
@@ -314,7 +317,6 @@
         </div>
     </section>
 
-
     <!-- REASON WHY I LOVE YOU (INTERACTIVE CARDS) -->
     <section class="py-20 px-6 bg-romantic-900 text-white relative z-20">
         <div class="max-w-5xl mx-auto text-center space-y-12">
@@ -357,7 +359,6 @@
         </div>
     </section>
 
-
     <!-- FOOTER / FINAL WISH -->
     <footer class="py-16 text-center relative z-20 bg-cream border-t border-romantic-200">
         <div class="max-w-xl mx-auto px-6 space-y-6">
@@ -372,7 +373,6 @@
             </div>
         </div>
     </footer>
-
 
     <!-- LIGHTBOX / PHOTO ZOOM MODAL -->
     <div id="photoModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
@@ -393,10 +393,8 @@
         </div>
     </div>
 
-
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Array data foto kenangan dengan 1 kata motivasi cinta formal & aesthetic
         const photoData = [
             { id: 1, type: "solo", word: "Renjana", caption: "Rasa cinta dan kerinduan mendalam yang menjadi alasan utama untuk terus berjuang.", src: "1 (1).jpg" },
             { id: 2, type: "solo", word: "Nirmala", caption: "Ketulusan hati yang murni tanpa cela, menjadi peneduh di kala badai datang.", src: "1 (2).jpg" },
@@ -422,7 +420,6 @@
             { id: 22, type: "couple", word: "Kemitraan", caption: "Saling bahu-membahu membangun cerita kehidupan yang bermakna.", src: "1 (22).jpg" }
         ];
 
-        // Function to shuffle photo array randomly (Fisher-Yates Shuffle Algorithm)
         function shuffleArray(array) {
             let shuffled = [...array];
             for (let i = shuffled.length - 1; i > 0; i--) {
@@ -432,16 +429,12 @@
             return shuffled;
         }
 
-        // Inject photos dynamically with randomized positions & a single motivational word
         function renderGallery() {
             const grid = document.getElementById('photoGrid');
             grid.innerHTML = '';
-
-            // Randomize photos order every page refresh
             const randomizedPhotos = shuffleArray(photoData);
 
             randomizedPhotos.forEach((item, index) => {
-                // Random rotations between -6deg to +6deg for scattered aesthetic
                 const rotations = ['-rotate-6', '-rotate-3', '-rotate-2', 'rotate-1', 'rotate-3', 'rotate-6'];
                 const randomRotate = rotations[Math.floor(Math.random() * rotations.length)];
                 
@@ -474,7 +467,6 @@
             });
         }
 
-        // Lightbox Modal Functions
         function openModal(imgsrc, word, caption, index, type) {
             const modal = document.getElementById('photoModal');
             const modalCard = document.getElementById('modalCard');
@@ -513,69 +505,47 @@
             }, 300);
         }
 
-        // Audio Player Controls
-       // Audio Player Controls
+        // Audio Player Controls & Landing Activation
         const audio = document.getElementById('bgMusic');
         const musicPing = document.getElementById('musicPing');
         const musicIcon = document.getElementById('musicIcon');
         const musicText = document.getElementById('musicText');
         let isPlaying = false;
 
-        function playAudio() {
+        function startWebsite() {
+            const overlay = document.getElementById('welcomeOverlay');
+            overlay.classList.add('opacity-0');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 700);
+
+            // Putar audio langsung lewat User Activation
             audio.play().then(() => {
                 isPlaying = true;
                 musicPing.classList.remove('hidden');
                 musicIcon.className = "fa-solid fa-compact-disc text-lg animate-spin";
                 musicText.innerText = "Memutar Lagu ✨";
             }).catch(err => {
-                console.log("Autoplay diblokir oleh browser, menunggu interaksi pengguna.", err);
+                console.log("Audio Playback Error: ", err);
             });
-        }
-
-        function pauseAudio() {
-            audio.pause();
-            isPlaying = false;
-            musicPing.classList.add('hidden');
-            musicIcon.className = "fa-solid fa-music text-lg";
-            musicText.innerText = "Putar Musik 🎵";
         }
 
         function toggleAudio() {
             if (isPlaying) {
-                pauseAudio();
+                audio.pause();
+                isPlaying = false;
+                musicPing.classList.add('hidden');
+                musicIcon.className = "fa-solid fa-music text-lg";
+                musicText.innerText = "Putar Musik 🎵";
             } else {
-                playAudio();
+                audio.play().then(() => {
+                    isPlaying = true;
+                    musicPing.classList.remove('hidden');
+                    musicIcon.className = "fa-solid fa-compact-disc text-lg animate-spin";
+                    musicText.innerText = "Memutar Lagu ✨";
+                });
             }
         }
-
-        // Initialize On Load
-        window.onload = function () {
-            renderGallery();
-            animatePetals();
-
-            // Set dynamic current date in letter
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            const today = new Date().toLocaleDateString('id-ID', options);
-            document.getElementById('currentDateDisplay').innerText = today;
-
-            // Coba langsung putar musik saat halaman selesai dimuat
-            playAudio();
-
-            // Fallback: Jika diblokir browser, musik otomatis berputar pada interaksi pertama (klik/touch/scroll)
-            const enableAudioOnInteraction = () => {
-                if (!isPlaying) {
-                    playAudio();
-                }
-                // Hapus event listener setelah musik berhasil diputar
-                ['click', 'touchstart', 'scroll', 'keydown'].forEach(event => {
-                    document.removeEventListener(event, enableAudioOnInteraction);
-                });
-            };
-
-            ['click', 'touchstart', 'scroll', 'keydown'].forEach(event => {
-                document.addEventListener(event, enableAudioOnInteraction, { once: true });
-            });
-        };
 
         // Falling Sakura/Rose Petal Canvas Animation
         const canvas = document.getElementById('petal-canvas');
@@ -620,7 +590,6 @@
                 ctx.rotate((this.rotation * Math.PI) / 180);
                 ctx.globalAlpha = this.opacity;
                 
-                // Draw petal shape
                 ctx.beginPath();
                 ctx.fillStyle = '#f891a9';
                 ctx.moveTo(0, 0);
@@ -645,23 +614,13 @@
             requestAnimationFrame(animatePetals);
         }
 
-        // Initialize On Load
         window.onload = function () {
             renderGallery();
             animatePetals();
 
-            // Set dynamic current date in letter
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             const today = new Date().toLocaleDateString('id-ID', options);
             document.getElementById('currentDateDisplay').innerText = today;
-
-            // Auto-play attempt on first user click anywhere
-            document.body.addEventListener('click', function autoPlayOnce() {
-                if (!isPlaying) {
-                    toggleAudio();
-                }
-                document.body.removeEventListener('click', autoPlayOnce);
-            }, { once: true });
         };
     </script>
 </body>
